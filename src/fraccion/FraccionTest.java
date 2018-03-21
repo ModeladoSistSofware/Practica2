@@ -29,5 +29,22 @@ public class FraccionTest {
 		frac.setDenominador(5);
 		assertEquals(5,frac.getDenominador());
 	}
+	@Test
+	public void verExceptionDenominadorCeroTest(){
+		  try {
+			   Fraccion nueva = new Fraccion(1,0); 
+			   fail("Se esperaba excepcion Exception");
+		  } catch(IllegalArgumentException e) {
+			  
+		  }	
+	}
+	@Test
+	public void verQueSeGuardaValorSimplificado(){
+		   Fraccion nueva = new Fraccion(15000, 500); 
+		   assertEquals(5,frac.getNumerador());
+		   assertEquals(2,frac.getDenominador());
+		   
+	}
+
 
 }
