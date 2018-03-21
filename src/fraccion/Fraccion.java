@@ -10,5 +10,30 @@ package fraccion;
  * @since 2018-03-14
  */
 public class Fraccion {
+	long numerador;
+	long denominador;
+	/**
+	 * Contructor que le pasaremos dos valores el numerador y denominador.
+	 * @param numerador
+	 * @param denominador
+	 */
+	Fraccion(long numerador, long denominador){
+		this.numerador = numerador;
+		this.denominador = denominador;
+	}
+	/**
+	 * Método de accesos al dato numerador.
+	 * @return el numerador.
+	 */
+	public long getNumerador() {
+		return numerador;
+	}
+	/**
+	 * Método de acceso al dato denominador.
+	 * @return el denominador.
+	 */
+	public long getDenominador() {
+		return denominador;
+	}
 	
 }
