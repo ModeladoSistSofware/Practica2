@@ -11,11 +11,16 @@ public class FraccionTest {
 	
 	@Before
 	public void inciar(){
-		frac = new Fraccion();
+		frac = new Fraccion(5,2);
 	}
 	@Test
 	public void test() {
 		assertNotNull(frac);
+	}
+	@Test
+	public void test() {
+		assertEquals(5,frac.getNumerador());
+		assertEquals(2,frac.getDenominador());
 	}
 
 }
