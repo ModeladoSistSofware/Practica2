@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 /**
  * Clase que almacenas el numerado y denominador. Tambien se hara operaciones
  * como si de una fraccion se tratase.
- * @author Jairo GonzÃ¡lez Lemus. Email : alu0100813272@ull.edu.es Universidad:
- *         Universidad de La Laguna. PrÃ¡ctica Asignatura: Modelado Sistemas Sofware.
+ * @author Jairo González Lemus. Email : alu0100813272@ull.edu.es Universidad:
+ *         Universidad de La Laguna. Práctica Asignatura: Modelado Sistemas Sofware.
  *         Nota:  Este diseÃ±o es un diseÃ±o por composicion. El que trata el try cach es el que te
  *         llama lanzo la execpcion.
  * @version 1.0
@@ -16,6 +16,9 @@ import java.util.regex.Pattern;
 public class Fraccion implements Cloneable{
 	private long numerador;
 	private long denominador;
+	/**
+	 * Método para clonado del objeto.
+	 */
 	public Object clone(){
 		   Fraccion obj = null;
 	        try{
@@ -136,15 +139,15 @@ public class Fraccion implements Cloneable{
 	private void normalizarSigno(){
 		// si es negativo el denominador normalizamos signo.
 		if(denominador < 0 ){
-			changeSing();
+			this.numerador *= -1;
 			this.denominador *= -1;
 		}
 	}
 	/**
 	 * Método para cambiar el signo de la fraccion.
 	 */
-	public void changeSing(){
-			this.numerador *= -1;
+	public Fraccion changeSing(){
+			return new Fraccion( numerador *-1, denominador);
 	}
 	/**
 	 * Método que simplifica la fracción
@@ -155,7 +158,7 @@ public class Fraccion implements Cloneable{
 		denominador/=mcd;
 	}
 	/**
-	 * MÃ©todo que calculo el maximo comun divisor. La versiÃ³n iterativa es mÃ¡s eficiente 
+	 * Método que calculo el maximo comun divisor. La versiÃ³n iterativa es mÃ¡s eficiente 
 	 * para la implementaciÃ³n en una computadora.
 	 * @param numA
 	 * @param numB
@@ -175,6 +178,12 @@ public class Fraccion implements Cloneable{
 			
 		return b;
 	}
+	/**
+	 * Método que calculo el minimo comun multiplo. 
+	 * @param numA
+	 * @param numB
+	 * @return el valor mcm calculado.
+	 */
 	public static long lcm(long valorA, long valorB){
         long mcm = 0;
         // seleccionamos el mayor
@@ -183,6 +192,26 @@ public class Fraccion implements Cloneable{
         mcm =  (a*b)/gcd(a,b);    
         return mcm;
     }
+	/**
+	 * Método que calcula el maximo comun diviso entre dos fracciones.
+	 * Estas siempre van a ser ireducible no hay que comprobar nada.
+	 * @param nueva
+	 * @return
+	 */
+	public Fraccion gcd(Fraccion nueva) {	
+		return new Fraccion(gcd(numerador,nueva.getNumerador()), 
+				            lcm(denominador,nueva.getDenominador()));
+	}
+	/**
+	 * Método que calcula el mínimo comun multiplo entre dos fracciones.
+	 * Estas siempre van a ser ireducible no hay que comprobar nada.
+	 * @param nueva
+	 * @return
+	 */
+	public Fraccion lcd(Fraccion nueva) {	
+		return new Fraccion(lcm(numerador,nueva.getNumerador()), 
+				            gcd(denominador,nueva.getDenominador()));
+	}
 	/**
 	 * Devuleve el valor mayor de dos numero de tipo long
 	 * @param valorA
@@ -215,31 +244,12 @@ public class Fraccion implements Cloneable{
 		}
 	}
 	/**
-	 * Métod para obetenr el signo de la fracción.
+	 * Método para obetenr el signo de la fracción.
 	 * @return 1 si fracción es positiva , -1 negativa y 0 en otro caso.
 	 */
-	public long sign() {
-		return (numerador == 0)? 0L : ( (numerador > 0)? 1L : -1L );
+	public int sign() {
+		return (numerador == 0)? 0 : ( (numerador > 0)? 1 : -1 );
 	}
-	// si metemos 5.25 lo puedo tranforamr en 525/100 utilizar exprecion regurlas. -?/b3/b//b-?5/b si se introduce en extring.
-	// parseFraction(). si determinao si es una fraccion o n
-	// simplificar y hacer sumas y la resta par ano se me desborde los numero.
-	// si tengo un enterr 3/5 + 3 = 18/5 por que se k 3 es un entero. se imprementa mas rapido.
-	// fraccion mixta es 3 1/2;   3 + 1/2 y sabesmo k 172 es impropia.24/3 es 8 
-	// implementa la clase
-	// campo l aparate enter y otro la fraccion
-	// sumas dos entermo mixto
-	// calcula
-	// simpre puedo pasar una 3 1/2 == 7/2== puedo pasa a fraccion y 
-	// otro aÃ±o se pidio amplicar la funcionalidad de la clase matriz y le digo una lista de vector de una orientacion pro fila
-	// y la matriz puede tener una orientacion por fila o por columna suma multiplic ay divide y se basa en la calse matriz.
-	// 10000 / 500 2?7
-	// un resta es una suma pero cambiada de signo
-	// divicion una multiplicacion ocn el oprenado de la derecha invertido.con dos linea sde codio una para el numero y otra
-	// denominadron.
-	// 0 es tanto positivo o negativo le pongo 0 y dpesu si se utliza se multiplica por 0 y dara 0 todo queda perfecto.
-	// simplificar es un metodo private.
-	// normaliza private de uso dinnterno y siempre se utliza.
 	/**
 	 * MÃ©todo de accesos al dato numerador.
 	 * @return el numerador.
@@ -279,7 +289,10 @@ public class Fraccion implements Cloneable{
 		numerador = nuevaF.getNumerador();
     	denominador = nuevaF.getDenominador();
 	}
-	
+	/**
+	 * Cálculo del valor en decima al hacer la fracción.
+	 * @return
+	 */
 	public double ratio() {
 		return (double)numerador / (double)denominador;
 	}
@@ -297,8 +310,143 @@ public class Fraccion implements Cloneable{
 	 public void print() {
 		 System.out.println(this);
 	 }
-	
-	 add, minus, multiply y divide
-	 public Fraccion add
+	/**
+	 * Método que realiza la operación de suma con otra fracción.
+	 * @param nueva
+	 * @return
+	 */
+	 public Fraccion add( Fraccion nueva) {
+		 return new Fraccion(numerador*nueva.getDenominador() + nueva.getNumerador()*denominador,denominador*nueva.getDenominador());
+	 }
+	 /**
+	  * Método que realiza la operación de resta con otra fracción.
+	  * @param nueva
+	  * @return
+	  */
+	 public Fraccion minus( Fraccion nueva) {
+		 return add(nueva.changeSing());
+		// return new Fraccion(numerador*nueva.getDenominador() - nueva.getNumerador()*denominador,denominador*nueva.getDenominador());
+	 }
+	 /**
+	  * Método que realiza la operación de multiplica con otra fracción.
+	  * @param nueva
+	  * @return
+	  */
+	 public Fraccion multiply( Fraccion nueva) {
+		 return new Fraccion(numerador*nueva.getNumerador(), denominador*nueva.getDenominador());
+	 }
+	 /**
+	  * Método que realiza la operación de dividir con otra fracción.
+	  * @param nueva
+	  * @return
+	  */
+	 public Fraccion divide( Fraccion nueva) {
+		 return multiply(nueva.reciprocal()); 
+	 }
+	 /**
+	  * Método que realiza la operación de suma con un entero grande
+	  * @param nueva
+	  * @return
+	  */
+	 public Fraccion add( long nueva) {
+		 return new Fraccion(numerador + nueva*denominador, denominador);
+	 }
+	 /**
+	  * Método que realiza la operación de resta con un entero grande
+	  * @param nueva
+	  * @return
+	  */
+	 public Fraccion minus( long nueva) {
+		 return add(nueva*-1);
+		 //return new Fraccion(numerador - nueva*denominador, denominador);
+	 }
+	 /**
+	  * Método que realiza la operación de multiplicar con un entero grande
+	  * @param nueva
+	  * @return
+	  */
+	 public Fraccion multiply( long nueva) {
+		 return new Fraccion(numerador*nueva, denominador);
+	 }
+	 /**
+	  * Método que realiza la operación de divide con un entero grande
+	  * @param nueva
+	  * @return
+	  */
+	 public Fraccion divide( long nueva) {
+		 return new Fraccion(numerador, denominador*nueva); 
+	 }
+	 /**
+	  * Método que invierte la fraccion si al invertir es 1/0 entonces
+	  * se lanza una excepción.
+	  * @throws ArithmeticException
+	  */
+	 public Fraccion reciprocal() throws ArithmeticException{
+			if(numerador == 0){
+				throw new  ArithmeticException( "Numerador igual 0 no se puede invertir" );
+			}
+		 return new Fraccion(denominador,numerador);
+	 }
+	 /**
+	  * Método para calcular la potencia n-sima de uan fraccion.
+	  * @param n_sima
+	  */
+	 public Fraccion power(int n_sima) {
+		 if(n_sima < 0) {
+			 return new Fraccion((long)Math.pow(denominador, Math.abs(n_sima)),
+					              (long)Math.pow(numerador, Math.abs(n_sima)));
+		 }else {
+			 return new Fraccion((long)Math.pow(numerador, Math.abs(n_sima)), 
+					             (long)Math.pow(denominador, Math.abs(n_sima)));
+		 }
+	 }
+	/* (sin Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if( obj instanceof Fraccion) {
+			if((this.numerador ==((Fraccion) obj).getNumerador())&&
+					(this.denominador ==((Fraccion) obj).getDenominador())){
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * Método booleano que sice si la fraccion es menor que la que le pasamos.
+	 * @param obj
+	 * @return
+	 */
+	public boolean less(Object obj) {
+		if( obj instanceof Fraccion) {
+			if(this.ratio() < ((Fraccion) obj).ratio()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * Método booleano que sice si la fraccion es menor que la que le pasamos.
+	 * @param obj
+	 * @return
+	 */
+	public boolean lessEqual(Object obj) {
+		if( obj instanceof Fraccion) {
+			if(equals(obj)||(less(obj))) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * Método booleano para saber si la fración es propia. Es propia si el 
+	 * valor absoluto de la fracción es menor a 1.
+	 * @param obj
+	 * @return
+	 */
+	public boolean isProper() {
+		return (Math.abs( this.ratio()) < 1 ) ? true : false;
+	}
 	
 }
